@@ -83,7 +83,17 @@ Expand-Archive -Path $RulesDownloadPath -DestinationPath $RulesExtractPath -Forc
 Write-Host "Copying rules to Fibratus directory..."
 $ExtractedRulesPath = Get-ChildItem "$RulesExtractPath\Custom-Fibratus-Rules-main" -Recurse -Filter "*.yml"
 foreach ($rule in $ExtractedRulesPath) {
-    $Destination = "$RulesTargetPath\Rules\$($rule.Name)"
+    if ($rule.Name -eq "macros.yml") {
+        # Define destination for macros.yml in the macros folder and create the folder if needed
+        $DestinationFolder = Join-Path -Path $RulesTargetPath -ChildPath "Rules\macros"
+        if (-not (Test-Path $DestinationFolder)) {
+            New-Item -Path $DestinationFolder -ItemType Directory -Force | Out-Null
+        }
+        $Destination = Join-Path -Path $DestinationFolder -ChildPath $rule.Name
+    }
+    else {
+        $Destination = Join-Path -Path $RulesTargetPath -ChildPath "Rules\$($rule.Name)"
+    }
     Copy-Item -Path $rule.FullName -Destination $Destination -Force
 }
 
@@ -122,4 +132,3 @@ $Settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoi
 Register-ScheduledTask -TaskName $TaskName -Action $Action -Trigger $Trigger -Principal $Principal -Settings $Settings
 
 Write-Host "Scheduled task created successfully to run daily at 2:00 AM as SYSTEM." -ForegroundColor Green
-
