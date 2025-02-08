@@ -108,6 +108,16 @@ if (Get-Service -Name $ServiceName -ErrorAction SilentlyContinue) {
     Write-Host "Fibratus service not found. It may not be running yet."
 }
 
+# Remove specific rule file
+$RuleToDelete = Join-Path -Path $RulesTargetPath -ChildPath "Rules\defense_evasion_unsigned_dll_injection_via_remote_thread.yml"
+if (Test-Path $RuleToDelete) {
+    Write-Host "Removing Unisgned DLL rule file..."
+    Remove-Item -Path $RuleToDelete -Force
+    Write-Host "Rule file removed successfully."
+} else {
+    Write-Host "Specified rule file not found."
+}
+
 # Cleanup temporary files
 Remove-Item -Path $DownloadPath -Force
 Remove-Item -Path $RulesDownloadPath -Force
