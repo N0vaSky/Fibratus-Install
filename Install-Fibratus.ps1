@@ -108,30 +108,38 @@ if (Get-Service -Name $ServiceName -ErrorAction SilentlyContinue) {
     Write-Host "Fibratus service not found. It may not be running yet."
 }
 
-# Remove specific rule file
-$RuleToDelete = Join-Path -Path $RulesTargetPath -ChildPath "Rules\defense_evasion_unsigned_dll_injection_via_remote_thread.yml"
-if (Test-Path $RuleToDelete) {
-    Write-Host "Removing Unisgned DLL rule file..."
-    Remove-Item -Path $RuleToDelete -Force
-    Write-Host "Rule file removed successfully."
-} else {
-    Write-Host "Specified rule file not found."
+# Function to safely remove rule files
+function Remove-RuleFile {
+    param (
+        [string]$RulePath
+    )
+
+    if (Test-Path $RulePath) {
+        try {
+            Remove-Item -Path $RulePath -Force
+            Write-Host "Rule file removed successfully: $RulePath"
+        }
+        catch {
+            Write-Host "Error removing rule file: $RulePath" -ForegroundColor Yellow
+        }
+    }
+    else {
+        Write-Host "Rule file not found: $RulePath" -ForegroundColor Yellow
+    }
 }
-$RuleToDelete2 = Join-Path -Path $RulesTargetPath -ChildPath "Rules\defense_evasion_potential_process_injection_via_tainted_memory_section.yml"
-if (Test-Path $RuleToDelete2) {
-    Write-Host "Removing Unisgned DLL rule file..."
-    Remove-Item -Path $RuleToDelete -Force
-    Write-Host "Rule file removed successfully."
-} else {
-    Write-Host "Specified rule file not found."
-}
-$RuleToDelete3 = Join-Path -Path $RulesTargetPath -ChildPath "Rules\credential_access_potential_sam_hive_dumping.yml"
-if (Test-Path $RuleToDelete3) {
-    Write-Host "Removing Unisgned DLL rule file..."
-    Remove-Item -Path $RuleToDelete -Force
-    Write-Host "Rule file removed successfully."
-} else {
-    Write-Host "Specified rule file not found."
+
+# Define rule files to remove
+$RulesToRemove = @(
+    "defense_evasion_unsigned_dll_injection_via_remote_thread.yml",
+    "defense_evasion_potential_process_injection_via_tainted_memory_section.yml",
+    "credential_access_potential_sam_hive_dumping.yml"
+)
+
+# Remove specified rule files
+Write-Host "Checking and removing specific rule files..."
+foreach ($RuleFileName in $RulesToRemove) {
+    $RulePath = Join-Path -Path $RulesTargetPath -ChildPath "Rules\$RuleFileName"
+    Remove-RuleFile -RulePath $RulePath
 }
 
 # Cleanup temporary files
