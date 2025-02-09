@@ -117,6 +117,22 @@ if (Test-Path $RuleToDelete) {
 } else {
     Write-Host "Specified rule file not found."
 }
+$RuleToDelete2 = Join-Path -Path $RulesTargetPath -ChildPath "Rules\defense_evasion_potential_process_injection_via_tainted_memory_section.yml"
+if (Test-Path $RuleToDelete) {
+    Write-Host "Removing Unisgned DLL rule file..."
+    Remove-Item -Path $RuleToDelete -Force
+    Write-Host "Rule file removed successfully."
+} else {
+    Write-Host "Specified rule file not found."
+}
+$RuleToDelete3 = Join-Path -Path $RulesTargetPath -ChildPath "Rules\credential_access_potential_sam_hive_dumping.yml"
+if (Test-Path $RuleToDelete) {
+    Write-Host "Removing Unisgned DLL rule file..."
+    Remove-Item -Path $RuleToDelete -Force
+    Write-Host "Rule file removed successfully."
+} else {
+    Write-Host "Specified rule file not found."
+}
 
 # Cleanup temporary files
 Remove-Item -Path $DownloadPath -Force
