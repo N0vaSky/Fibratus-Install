@@ -132,7 +132,8 @@ function Remove-RuleFile {
 $RulesToRemove = @(
     "defense_evasion_unsigned_dll_injection_via_remote_thread.yml",
     "defense_evasion_potential_process_injection_via_tainted_memory_section.yml",
-    "credential_access_potential_sam_hive_dumping.yml"
+    "credential_access_potential_sam_hive_dumping.yml",
+    "defense_evasion_dotnet_assembly_loaded_by_unmanaged_process.yml"
 )
 
 # Remove specified rule files
