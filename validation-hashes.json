@@ -1,13 +1,13 @@
 {
   "executable": {
-    "filename": "CloudjacketEDR_Setup.exe",
-    "sha256": "0C36CAD7AE45104E73BBFA65CCBB230808B05EFD8DF9DAC5DE77726D32D48D01",
+    "filename": "FibratusEDR_Setup.exe",
+    "sha256": "77E919F2359C86F1D9B61E779B2807DAE2A34713325978FE704FCCB9DAB7DAB0",
     "last_updated": "2025-02-15T00:00:00.000Z",
     "version": "1.0.0"
   },
   "metadata": {
-    "publisher": "Cloudjacket",
-    "description": "Cloudjacket EDR Setup Utility",
+    "publisher": "N0vaSky",
+    "description": "Custom Fibratus EDR Setup Utility",
     "validation_schema_version": "1.0"
   }
 }
