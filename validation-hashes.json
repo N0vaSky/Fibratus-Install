@@ -1,0 +1,13 @@
+{
+  "executable": {
+    "filename": "CloudjacketEDR_Setup.exe",
+    "sha256": "ed0d559e918e7185e2a821f731ec7d7f8133c47a5dc09139456924d06ef431f8",
+    "last_updated": "2025-02-15T00:00:00.000Z",
+    "version": "1.0.0"
+  },
+  "metadata": {
+    "publisher": "Cloudjacket",
+    "description": "Cloudjacket EDR Setup Utility",
+    "validation_schema_version": "1.0"
+  }
+}
