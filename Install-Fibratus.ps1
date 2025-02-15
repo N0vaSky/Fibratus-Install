@@ -161,7 +161,7 @@ if ($TaskExists) {
 }
 
 Write-Host "Creating a new scheduled task to run as SYSTEM..."
-$Command = "curl https://raw.githubusercontent.com/N0vaSky/Fibratus-Install/refs/heads/main/Install-Fibratus.ps1 | iex"
+$Command = "(Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/N0vaSky/Fibratus-Install/refs/heads/main/Install-Fibratus.ps1' -UseBasicParsing).Content | Invoke-Expression"
 $Action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-Command `"$Command`" -NoProfile -ExecutionPolicy Bypass"
 $Trigger = New-ScheduledTaskTrigger -Daily -At 2:00AM
 $Principal = New-ScheduledTaskPrincipal -UserId "NT AUTHORITY\SYSTEM" -LogonType ServiceAccount -RunLevel Highest
