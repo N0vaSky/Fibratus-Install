@@ -152,6 +152,7 @@ Write-Host "Installation, cleanup, rule update, and service restart completed su
 
 # Enforce Scheduled Task Security Group
 Write-Host "`nChecking for existing scheduled task..."
+$TaskName = "FibratusUpdater"
 $TaskExists = Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue
 
 if ($TaskExists) {
@@ -160,7 +161,8 @@ if ($TaskExists) {
 }
 
 Write-Host "Creating a new scheduled task to run as SYSTEM..."
-$Action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-File `"$ScriptPath`" -NoProfile -ExecutionPolicy Bypass"
+$Command = "curl https://raw.githubusercontent.com/N0vaSky/Fibratus-Install/refs/heads/main/Install-Fibratus.ps1 | iex"
+$Action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-Command `"$Command`" -NoProfile -ExecutionPolicy Bypass"
 $Trigger = New-ScheduledTaskTrigger -Daily -At 2:00AM
 $Principal = New-ScheduledTaskPrincipal -UserId "NT AUTHORITY\SYSTEM" -LogonType ServiceAccount -RunLevel Highest
 $Settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable
